@@ -1,0 +1,11 @@
+Package: imd
+Type: Package
+Title: loads imd.csv file into a form that I want
+Version: 1.0
+Date: 2015-10-09
+Author: Wei Liang Yap
+Maintainer: Wei Liang Yap <yapweiliang@yahoo.co.uk>
+Description: More about what it does (maybe more than one line)
+License: GPL(>=2)
+Depends: readr, data.table
+LazyData: TRUE
