@@ -7,5 +7,8 @@ Author: Wei Liang Yap
 Maintainer: Wei Liang Yap <yapweiliang@yahoo.co.uk>
 Description: More about what it does (maybe more than one line)
 License: GPL(>=2)
-Depends: readr, data.table
+Depends:
+    readr,
+    data.table
 LazyData: TRUE
+RoxygenNote: 5.0.1

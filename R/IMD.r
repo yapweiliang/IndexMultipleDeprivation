@@ -14,6 +14,17 @@
 .csv.column.types.all    <- "ccccdiidiidiidiidiidiidiidiidiidiidiidiidiidiidiidii_____"
 .csv.column.types.scores <- "ccccd__d__d__d__d__d__d__d__d__d__d__d__d__d__d__d_______"
 
+# format for data.table::fread
+imd_headers_classes <- function(scores.only = TRUE) {
+  z <- ifelse(scores.only, "integer", "NULL")
+  return(
+    c( rep("character", 4),
+       rep( c("numeric", z, z), 16),
+       rep( "NULL", 5))
+  )
+}
+
+# to rename headers
 imd_headers <- data.frame(rbind(
   c("LSOA11CD",               "LSOA code (2011)"),
   c("LSOA11NM",               "LSOA name (2011)"),
@@ -88,7 +99,7 @@ imd_headers <- data.frame(rbind(
 #' @param file filename of the .csv file containing everything
 #' @param scores.only \code{TRUE} (default) to strip ranking and deciles, \code{FALSE} to keep everything
 #'
-#' @return the IMD dataset
+#' @return the IMD dataset as.data.table
 #' @export
 #'
 #' @examples IMD2015 <- getIMD()
@@ -97,8 +108,15 @@ getIMD <- function( path = .defaultPath,
                     scores.only = TRUE) {
 
   file <- paste(path, file, sep = "/")
+
+  #read_csv method 0.2 seconds
   cols <- ifelse(scores.only, .csv.column.types.scores, .csv.column.types.all)
   IMD <- read_csv(file, col_types = cols)
+  IMD <- as.data.table(IMD)
+
+  #fread method 0.4 seconds
+  #IMD <- fread(file, colClasses = imd_headers_classes(scores.only))
+
   setnames(IMD, old = imd_headers[, 2], new = imd_headers[, 1])
 
   return(IMD)
